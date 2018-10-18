@@ -1,0 +1,12 @@
+endpoint: http://stamp-Publi-JWKX08TP3UEH-619597303.eu-west-1.elb.amazonaws.com
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma/
+  - generator: graphql-schema
+    output: ../src/generated/
+
+hooks:
+  post-deploy:
+    - prisma generate
