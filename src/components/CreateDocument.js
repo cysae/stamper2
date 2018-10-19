@@ -8,16 +8,17 @@ class CreateDocument extends Component {
   state = {
     name: '',
   }
+
+/*
   handlePost = async e => {
     e.preventDefault()
     const { name } = this.state
-    console.log('submit')
     await this.props.createDocumentMutation ({
       variables: { name },
     })
-    console.log('aftersubmit',name)
-    this.props.history.replace('/documents')
+    this.props.history.push('/documents')
   }
+*/
 
   _uploadFile = (event) => {
     const files = event.target.files
@@ -30,14 +31,16 @@ class CreateDocument extends Component {
     }).catch(error => {
       console.log(error)
     })
-    this.props.history.push(`/`)
+    this.props.history.push(`/documents`)
   }
 
   render() {
     return (
       <div className="pa4 flex justify-center bg-white">
-        <form onSubmit={this.handlePost}>
-          <h1>Upload Document</h1>
+        <form>
+        {/*onSubmit={this.handlePost}> NOT NEEDED, AS WELL AS handlePost() */}
+          <h1 className="pa4 flex justify-center">Upload Document</h1>
+{/*
           <input
             autoFocus
             className="w-100 pa2 mv2 br2 b--black-20 bw1"
@@ -53,23 +56,20 @@ class CreateDocument extends Component {
             type="submit"
             value="Create"
           />
-          <a className="f6 pointer" onClick={this.props.history.goBack}>
-            Cancel
-          </a>
-
-
+*/}
           <input
             type="file"
             accept="image/*"
-            onChange={(event)=> {
+            onChange={(event) => {
                 this._uploadFile(event)
             }}
-            onClick={(event)=> {
+            onClick={(event) => {
                 event.target.value = null
             }}
           />
-
-
+          <a className="f6 pointer" onClick={this.props.history.goBack}>
+            Cancel
+          </a>
         </form>
       </div>
     )
@@ -104,4 +104,3 @@ export default compose(
   }),
   withRouter
 )(CreateDocument)
-
