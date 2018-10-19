@@ -8,10 +8,19 @@ type Post {
   author: User!
 }
 
+type Document {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  owner: User!
+}
+
 type User {
   id: ID! @unique
   email: String! @unique
   password: String!
   name: String!
   posts: [Post!]!
+  documents: [Document!]!
 }

@@ -10,6 +10,8 @@ import {
 import FeedPage from './FeedPage'
 import DraftsPage from './DraftsPage'
 import CreatePage from './CreatePage'
+import CreateDocument from './CreateDocument'
+import DocumentsPage from './DocumentsPage'
 import DetailPage from './DetailPage'
 import LoginPage from './LoginPage'
 import SignupPage from './SignupPage'
@@ -104,15 +106,26 @@ class RootContainer extends Component {
           this.props.data.me &&
           this.props.data.me.email &&
           this.state.token && (
-            <NavLink
-              className="link dim f6 f5-ns dib mr3 black"
-              activeClassName="gray"
-              exact={true}
-              to="/drafts"
-              title="Drafts"
-            >
-              Drafts
-            </NavLink>
+            <Fragment>
+              <NavLink
+                className="link dim f6 f5-ns dib mr3 black"
+                activeClassName="gray"
+                exact={true}
+                to="/drafts"
+                title="Drafts"
+              >
+                Drafts
+              </NavLink>
+              <NavLink
+                className="link dim f6 f5-ns dib mr3 black"
+                activeClassName="gray"
+                exact={true}
+                to="/documents"
+                title="Documents"
+              >
+                Documents
+              </NavLink>
+            </Fragment>
           )}
         {this.state.token ? (
           <div
@@ -139,12 +152,20 @@ class RootContainer extends Component {
           this.props.data.me &&
           this.props.data.me.email &&
           this.state.token && (
-            <Link
-              to="/create"
-              className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
-            >
-              + Create Draft
-            </Link>
+            <Fragment>
+              <Link
+                to="/create"
+                className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
+              >
+                + Create Draft
+              </Link>
+              <Link
+                to="/upload"
+                className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
+              >
+                + Upload Document
+              </Link>
+            </Fragment>
           )}
       </nav>
     )
@@ -162,8 +183,18 @@ class RootContainer extends Component {
           />
           <ProtectedRoute
             token={this.state.token}
+            path="/documents"
+            component={DocumentsPage}
+          />
+          <ProtectedRoute
+            token={this.state.token}
             path="/create"
             component={CreatePage}
+          />
+          <ProtectedRoute
+            token={this.state.token}
+            path="/upload"
+            component={CreateDocument}
           />
           <Route path="/post/:id" component={DetailPage} />
           <Route
