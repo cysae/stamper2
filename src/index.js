@@ -7,6 +7,7 @@ import { getMainDefinition } from 'apollo-utilities'
 import { AUTH_TOKEN } from './constant'
 import RootContainer from './components/RootContainer'
 import { ApolloProvider } from 'react-apollo'
+import { createUploadLink } from 'apollo-upload-client'
 
 import 'tachyons'
 import './index.css'
@@ -47,10 +48,12 @@ const link = split(
   wsLink,
   httpLinkAuth,
 )
+console.log('jojojj')
+console.log('link', ApolloLink.from([link]))
 
 // apollo client setup
 const client = new ApolloClient({
-  link: ApolloLink.from([link]),
+  link: middlewareLink.concat(createUploadLink({ uri: 'http://localhost:4000' })),
   cache: new InMemoryCache(),
   connectToDevTools: true,
 })

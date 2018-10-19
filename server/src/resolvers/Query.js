@@ -4,10 +4,8 @@ const Query = {
   feed(parent, args, ctx, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
   },
-
   drafts(parent, args, ctx, info) {
     const id = getUserId(ctx)
-console.log('userId', id)
     const where = {
       isPublished: false,
       author: {
@@ -17,7 +15,6 @@ console.log('userId', id)
 
     return ctx.db.query.posts({ where }, info)
   },
-//////////////////////////////////
   documents(parent, args, ctx, info) {
     const id = getUserId(ctx)
 
@@ -32,11 +29,6 @@ console.log('userId', id)
   post(parent, { id }, ctx, info) {
     return ctx.db.query.post({ where: { id } }, info)
   },
-/////////////////////////////////
-  post(parent, { id }, ctx, info) {
-    return ctx.db.query.post({ where: { id } }, info)
-  },
-
   me(parent, args, ctx, info) {
     const id = getUserId(ctx)
     return ctx.db.query.user({ where: { id } }, info)

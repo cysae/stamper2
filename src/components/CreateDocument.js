@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
+import { compose } from 'recompose'
 
 class CreateDocument extends Component {
   state = {
@@ -16,6 +17,20 @@ class CreateDocument extends Component {
     })
     console.log('aftersubmit',name)
     this.props.history.replace('/documents')
+  }
+
+  _uploadFile = (event) => {
+    const files = event.target.files
+    const file = files[0]
+    console.log('file', file)
+    this.props.uploadMutation({
+      variables: {
+        file
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+    this.props.history.push(`/`)
   }
 
   render() {
@@ -38,11 +53,23 @@ class CreateDocument extends Component {
             type="submit"
             value="Create"
           />
-          {" "}    {//{this.props.history.push("/documents")}
-        }
           <a className="f6 pointer" onClick={this.props.history.goBack}>
             Cancel
           </a>
+
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event)=> {
+                this._uploadFile(event)
+            }}
+            onClick={(event)=> {
+                event.target.value = null
+            }}
+          />
+
+
         </form>
       </div>
     )
@@ -50,16 +77,31 @@ class CreateDocument extends Component {
 }
 
 const CREATE_DOCUMENT_MUTATION = gql`
-mutation CreateDocumentMutation($name: String!) {
-  createDocument(name: $name) {
-    id
-    name
+  mutation CreateDocumentMutation($name: String!) {
+    createDocument(name: $name) {
+      id
+      name
+    }
   }
-}
 `
 
-const CreateDocumentWithMutation = graphql(CREATE_DOCUMENT_MUTATION, {
-  name: 'createDocumentMutation', // name of the injected prop: this.props.createCompanyMutation...
-})(CreateDocument)
+const UPLOAD_MUTATION = gql`
+  mutation uploadFile($file: Upload!) {
+    uploadFile(
+      file: $file
+    ) {
+      id
+    }
+  }
+`
 
-export default withRouter(CreateDocumentWithMutation)
+export default compose(
+  graphql(CREATE_DOCUMENT_MUTATION, {
+    name: 'createDocumentMutation', // name of the injected prop: this.props.createCompanyMutation...
+  }),
+  graphql(UPLOAD_MUTATION, {
+    name: 'uploadMutation', // name of the injected prop: this.props.createCompanyMutation...
+  }),
+  withRouter
+)(CreateDocument)
+

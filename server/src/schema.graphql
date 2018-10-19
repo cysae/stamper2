@@ -1,5 +1,7 @@
 # import Post from "./generated/prisma.graphql"
 
+scalar Upload
+
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
@@ -15,6 +17,7 @@ type Mutation {
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
   createDocument(name: String!): Document!
+  uploadFile( file: Upload! ): File!
 }
 
 type Subscription {
