@@ -34,19 +34,20 @@ class DocumentsPage extends Component {
           <h1>Documents</h1>
         </div>
         {this.props.documentsQuery.documents &&
-          this.props.documentsQuery.documents.map(document => (
-            // <Docs //Post
-            //   key={document.id}
-            //   doc={document} //post={document}
-            //   refresh={() => this.props.documentsQuery.refetch()}
-            //   //isDocument={!document.isPublished}
-            // />
-                    // someday something like <Link to="/"+{this.props.document.actualFileSite}
-            <ul  key={document.id}>
-              <Link to={`/documents/${document.name}`}>{document.name}</Link>
-            </ul>
-          ))}
-        {this.props.children}
+         this.props.documentsQuery.documents.map(document => (
+           // <Docs //Post
+           //   key={document.id}
+           //   doc={document} //post={document}
+           //   refresh={() => this.props.documentsQuery.refetch()}
+           //   //isDocument={!document.isPublished}
+           // />
+           // someday something like <Link to="/"+{this.props.document.actualFileSite}
+           <ul  key={document.id}>
+             <Link to={`/documents/${document.name}`}>{document.name}</Link>
+           </ul>
+         ))}
+          <a href="https://stamper-storage.s3.eu-west-1.amazonaws.com/def9e220-d3c0-11e8-939b-93770feb2114-authLogo.png" download>test</a>
+            {this.props.children}
       </Fragment>
     )
   }
