@@ -1,13 +1,14 @@
 const uuid = require('uuid/v1')
 const aws = require('aws-sdk')
+aws.config.update({ region: 'eu-west-1' })
+
+console.log(process.env)
 
 const s3 = new aws.S3({
-  accessKeyId: 'foo',
-  secretAccessKey: 'bar',
   params: {
-    Bucket: 'com.prisma.s3'
+    Bucket: 'stamper-storage'
   },
-  endpoint: new aws.Endpoint('http://localhost:4569')
+  endpoint: 'https://s3.eu-west-1.amazonaws.com'
 })
 
 const processUpload = async (upload, ctx) => {
