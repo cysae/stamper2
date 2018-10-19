@@ -52,6 +52,15 @@ class DocumentsPage extends Component {
   }
 }
 
+// const FILES_QUERY = gql`
+//   query FilesQuery {
+//     files {
+//       id
+//       name
+//     }
+//   }
+// `
+
 const DOCUMENTS_QUERY = gql`
   query DocumentsQuery {
     documents {

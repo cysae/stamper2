@@ -16,7 +16,7 @@ class SignupPage extends Component {
       <div className="pa4 flex justify-center bg-white">
         <form onSubmit={this._signup}>
           <h3>
-            Already have an account!!! <a href="/login"> Login</a>
+            Already have an account? <a href="/login"> Login</a>
           </h3>
           <input
             autoFocus
