@@ -196,7 +196,7 @@ class RootContainer extends Component {
           />
           <ProtectedRoute
             token={this.state.token}
-            path="/file/receipt"
+            path="/file/receipt/:stamperyId"
             component={ReceiptPage}
           />
           <Route path="/post/:id" component={DetailPage} />
