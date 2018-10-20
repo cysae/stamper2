@@ -25,5 +25,9 @@ type File {
   mimetype: String!
   encoding: String!
   url: String! @unique
+  stamperyId: ID! @unique
+  hash: String!
+  stampedAt: DateTime!
+  readyAt: DateTime!
   owner: User!
 }

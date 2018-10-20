@@ -215,7 +215,15 @@ export type FileOrderByInput =
   | "encoding_ASC"
   | "encoding_DESC"
   | "url_ASC"
-  | "url_DESC";
+  | "url_DESC"
+  | "stamperyId_ASC"
+  | "stamperyId_DESC"
+  | "hash_ASC"
+  | "hash_DESC"
+  | "stampedAt_ASC"
+  | "stampedAt_DESC"
+  | "readyAt_ASC"
+  | "readyAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -243,6 +251,7 @@ export interface UserUpdateOneRequiredWithoutFilesInput {
 export type FileWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   url?: String;
+  stamperyId?: ID_Input;
 }>;
 
 export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -409,6 +418,10 @@ export interface FileCreateInput {
   mimetype: String;
   encoding: String;
   url: String;
+  stamperyId: ID_Input;
+  hash: String;
+  stampedAt: DateTimeInput;
+  readyAt: DateTimeInput;
   owner: UserCreateOneWithoutFilesInput;
 }
 
@@ -475,6 +488,10 @@ export interface FileUpdateInput {
   mimetype?: String;
   encoding?: String;
   url?: String;
+  stamperyId?: ID_Input;
+  hash?: String;
+  stampedAt?: DateTimeInput;
+  readyAt?: DateTimeInput;
   owner?: UserUpdateOneRequiredWithoutFilesInput;
 }
 
@@ -496,6 +513,10 @@ export interface FileCreateWithoutOwnerInput {
   mimetype: String;
   encoding: String;
   url: String;
+  stamperyId: ID_Input;
+  hash: String;
+  stampedAt: DateTimeInput;
+  readyAt: DateTimeInput;
 }
 
 export interface UserUpdateOneRequiredWithoutPostsInput {
@@ -554,6 +575,10 @@ export interface FileUpdateWithoutOwnerDataInput {
   mimetype?: String;
   encoding?: String;
   url?: String;
+  stamperyId?: ID_Input;
+  hash?: String;
+  stampedAt?: DateTimeInput;
+  readyAt?: DateTimeInput;
 }
 
 export interface UserCreateOneWithoutPostsInput {
@@ -660,6 +685,50 @@ export interface FileWhereInput {
   url_not_starts_with?: String;
   url_ends_with?: String;
   url_not_ends_with?: String;
+  stamperyId?: ID_Input;
+  stamperyId_not?: ID_Input;
+  stamperyId_in?: ID_Input[] | ID_Input;
+  stamperyId_not_in?: ID_Input[] | ID_Input;
+  stamperyId_lt?: ID_Input;
+  stamperyId_lte?: ID_Input;
+  stamperyId_gt?: ID_Input;
+  stamperyId_gte?: ID_Input;
+  stamperyId_contains?: ID_Input;
+  stamperyId_not_contains?: ID_Input;
+  stamperyId_starts_with?: ID_Input;
+  stamperyId_not_starts_with?: ID_Input;
+  stamperyId_ends_with?: ID_Input;
+  stamperyId_not_ends_with?: ID_Input;
+  hash?: String;
+  hash_not?: String;
+  hash_in?: String[] | String;
+  hash_not_in?: String[] | String;
+  hash_lt?: String;
+  hash_lte?: String;
+  hash_gt?: String;
+  hash_gte?: String;
+  hash_contains?: String;
+  hash_not_contains?: String;
+  hash_starts_with?: String;
+  hash_not_starts_with?: String;
+  hash_ends_with?: String;
+  hash_not_ends_with?: String;
+  stampedAt?: DateTimeInput;
+  stampedAt_not?: DateTimeInput;
+  stampedAt_in?: DateTimeInput[] | DateTimeInput;
+  stampedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  stampedAt_lt?: DateTimeInput;
+  stampedAt_lte?: DateTimeInput;
+  stampedAt_gt?: DateTimeInput;
+  stampedAt_gte?: DateTimeInput;
+  readyAt?: DateTimeInput;
+  readyAt_not?: DateTimeInput;
+  readyAt_in?: DateTimeInput[] | DateTimeInput;
+  readyAt_not_in?: DateTimeInput[] | DateTimeInput;
+  readyAt_lt?: DateTimeInput;
+  readyAt_lte?: DateTimeInput;
+  readyAt_gt?: DateTimeInput;
+  readyAt_gte?: DateTimeInput;
   owner?: UserWhereInput;
   AND?: FileWhereInput[] | FileWhereInput;
   OR?: FileWhereInput[] | FileWhereInput;
@@ -995,6 +1064,10 @@ export interface FilePreviousValuesNode {
   mimetype: String;
   encoding: String;
   url: String;
+  stamperyId: ID_Output;
+  hash: String;
+  stampedAt: DateTimeOutput;
+  readyAt: DateTimeOutput;
 }
 
 export interface FilePreviousValues
@@ -1007,6 +1080,10 @@ export interface FilePreviousValues
   mimetype: () => Promise<String>;
   encoding: () => Promise<String>;
   url: () => Promise<String>;
+  stamperyId: () => Promise<ID_Output>;
+  hash: () => Promise<String>;
+  stampedAt: () => Promise<DateTimeOutput>;
+  readyAt: () => Promise<DateTimeOutput>;
 }
 
 export interface FilePreviousValuesSubscription
@@ -1019,6 +1096,10 @@ export interface FilePreviousValuesSubscription
   mimetype: () => Promise<AsyncIterator<String>>;
   encoding: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
+  stamperyId: () => Promise<AsyncIterator<ID_Output>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  stampedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readyAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface FileSubscriptionPayloadNode {
@@ -1117,6 +1198,10 @@ export interface FileNode {
   mimetype: String;
   encoding: String;
   url: String;
+  stamperyId: ID_Output;
+  hash: String;
+  stampedAt: DateTimeOutput;
+  readyAt: DateTimeOutput;
 }
 
 export interface File extends Promise<FileNode>, Fragmentable {
@@ -1127,6 +1212,10 @@ export interface File extends Promise<FileNode>, Fragmentable {
   mimetype: () => Promise<String>;
   encoding: () => Promise<String>;
   url: () => Promise<String>;
+  stamperyId: () => Promise<ID_Output>;
+  hash: () => Promise<String>;
+  stampedAt: () => Promise<DateTimeOutput>;
+  readyAt: () => Promise<DateTimeOutput>;
   owner: <T = User>() => T;
 }
 
@@ -1140,6 +1229,10 @@ export interface FileSubscription
   mimetype: () => Promise<AsyncIterator<String>>;
   encoding: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
+  stamperyId: () => Promise<AsyncIterator<ID_Output>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  stampedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readyAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   owner: <T = UserSubscription>() => T;
 }
 

@@ -25,6 +25,10 @@ type File {
   mimetype: String!
   encoding: String!
   url: String!
+  stamperyId: ID!
+  hash: String!
+  stampedAt: DateTime!
+  readyAt: DateTime!
   owner: User!
 }
 
@@ -39,6 +43,10 @@ input FileCreateInput {
   mimetype: String!
   encoding: String!
   url: String!
+  stamperyId: ID!
+  hash: String!
+  stampedAt: DateTime!
+  readyAt: DateTime!
   owner: UserCreateOneWithoutFilesInput!
 }
 
@@ -52,6 +60,10 @@ input FileCreateWithoutOwnerInput {
   mimetype: String!
   encoding: String!
   url: String!
+  stamperyId: ID!
+  hash: String!
+  stampedAt: DateTime!
+  readyAt: DateTime!
 }
 
 type FileEdge {
@@ -74,6 +86,14 @@ enum FileOrderByInput {
   encoding_DESC
   url_ASC
   url_DESC
+  stamperyId_ASC
+  stamperyId_DESC
+  hash_ASC
+  hash_DESC
+  stampedAt_ASC
+  stampedAt_DESC
+  readyAt_ASC
+  readyAt_DESC
 }
 
 type FilePreviousValues {
@@ -84,6 +104,10 @@ type FilePreviousValues {
   mimetype: String!
   encoding: String!
   url: String!
+  stamperyId: ID!
+  hash: String!
+  stampedAt: DateTime!
+  readyAt: DateTime!
 }
 
 type FileSubscriptionPayload {
@@ -109,6 +133,10 @@ input FileUpdateInput {
   mimetype: String
   encoding: String
   url: String
+  stamperyId: ID
+  hash: String
+  stampedAt: DateTime
+  readyAt: DateTime
   owner: UserUpdateOneRequiredWithoutFilesInput
 }
 
@@ -126,6 +154,10 @@ input FileUpdateWithoutOwnerDataInput {
   mimetype: String
   encoding: String
   url: String
+  stamperyId: ID
+  hash: String
+  stampedAt: DateTime
+  readyAt: DateTime
 }
 
 input FileUpdateWithWhereUniqueWithoutOwnerInput {
@@ -226,6 +258,50 @@ input FileWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  stamperyId: ID
+  stamperyId_not: ID
+  stamperyId_in: [ID!]
+  stamperyId_not_in: [ID!]
+  stamperyId_lt: ID
+  stamperyId_lte: ID
+  stamperyId_gt: ID
+  stamperyId_gte: ID
+  stamperyId_contains: ID
+  stamperyId_not_contains: ID
+  stamperyId_starts_with: ID
+  stamperyId_not_starts_with: ID
+  stamperyId_ends_with: ID
+  stamperyId_not_ends_with: ID
+  hash: String
+  hash_not: String
+  hash_in: [String!]
+  hash_not_in: [String!]
+  hash_lt: String
+  hash_lte: String
+  hash_gt: String
+  hash_gte: String
+  hash_contains: String
+  hash_not_contains: String
+  hash_starts_with: String
+  hash_not_starts_with: String
+  hash_ends_with: String
+  hash_not_ends_with: String
+  stampedAt: DateTime
+  stampedAt_not: DateTime
+  stampedAt_in: [DateTime!]
+  stampedAt_not_in: [DateTime!]
+  stampedAt_lt: DateTime
+  stampedAt_lte: DateTime
+  stampedAt_gt: DateTime
+  stampedAt_gte: DateTime
+  readyAt: DateTime
+  readyAt_not: DateTime
+  readyAt_in: [DateTime!]
+  readyAt_not_in: [DateTime!]
+  readyAt_lt: DateTime
+  readyAt_lte: DateTime
+  readyAt_gt: DateTime
+  readyAt_gte: DateTime
   owner: UserWhereInput
   AND: [FileWhereInput!]
   OR: [FileWhereInput!]
@@ -235,6 +311,7 @@ input FileWhereInput {
 input FileWhereUniqueInput {
   id: ID
   url: String
+  stamperyId: ID
 }
 
 scalar Long
