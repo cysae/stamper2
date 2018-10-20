@@ -14,10 +14,10 @@ type User {
   password: String!
   name: String!
   posts: [Post!]!
-  documents: [Document!]!
+  files: [File!]!
 }
 
-type Document {
+type File {
   id: ID! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -25,4 +25,5 @@ type Document {
   mimetype: String!
   encoding: String!
   url: String! @unique
+  owner: User!
 }

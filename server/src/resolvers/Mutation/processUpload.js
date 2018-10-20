@@ -1,5 +1,6 @@
 const uuid = require('uuid/v1')
 const aws = require('aws-sdk')
+const { getUserId } = require('../../utils')
 aws.config.update({ region: 'eu-west-1' })
 
 console.log(process.env)
@@ -32,7 +33,8 @@ const processUpload = async (upload, ctx) => {
     filename,
     mimetype,
     encoding,
-    url
+    url,
+    owner: { connect: { id: getUserId(ctx) }}
   }
 
   const { id } = await ctx.db.mutation.createFile({ data }, '{ id }' )

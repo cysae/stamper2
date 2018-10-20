@@ -11,7 +11,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  document: (where?: DocumentWhereInput) => Promise<boolean>;
+  file: (where?: FileWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -36,29 +36,29 @@ export interface Prisma {
    * Queries
    */
 
-  document: (where: DocumentWhereUniqueInput) => Document;
-  documents: (
+  file: (where: FileWhereUniqueInput) => File;
+  files: (
     args?: {
-      where?: DocumentWhereInput;
-      orderBy?: DocumentOrderByInput;
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => FragmentableArray<DocumentNode>;
-  documentsConnection: (
+  ) => FragmentableArray<FileNode>;
+  filesConnection: (
     args?: {
-      where?: DocumentWhereInput;
-      orderBy?: DocumentOrderByInput;
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => DocumentConnection;
+  ) => FileConnection;
   post: (where: PostWhereUniqueInput) => Post;
   posts: (
     args?: {
@@ -111,22 +111,22 @@ export interface Prisma {
    * Mutations
    */
 
-  createDocument: (data: DocumentCreateInput) => Document;
-  updateDocument: (
-    args: { data: DocumentUpdateInput; where: DocumentWhereUniqueInput }
-  ) => Document;
-  updateManyDocuments: (
-    args: { data: DocumentUpdateInput; where?: DocumentWhereInput }
+  createFile: (data: FileCreateInput) => File;
+  updateFile: (
+    args: { data: FileUpdateInput; where: FileWhereUniqueInput }
+  ) => File;
+  updateManyFiles: (
+    args: { data: FileUpdateInput; where?: FileWhereInput }
   ) => BatchPayload;
-  upsertDocument: (
+  upsertFile: (
     args: {
-      where: DocumentWhereUniqueInput;
-      create: DocumentCreateInput;
-      update: DocumentUpdateInput;
+      where: FileWhereUniqueInput;
+      create: FileCreateInput;
+      update: FileUpdateInput;
     }
-  ) => Document;
-  deleteDocument: (where: DocumentWhereUniqueInput) => Document;
-  deleteManyDocuments: (where?: DocumentWhereInput) => BatchPayload;
+  ) => File;
+  deleteFile: (where: FileWhereUniqueInput) => File;
+  deleteManyFiles: (where?: FileWhereInput) => BatchPayload;
   createPost: (data: PostCreateInput) => Post;
   updatePost: (
     args: { data: PostUpdateInput; where: PostWhereUniqueInput }
@@ -168,9 +168,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  document: (
-    where?: DocumentSubscriptionWhereInput
-  ) => DocumentSubscriptionPayloadSubscription;
+  file: (
+    where?: FileSubscriptionWhereInput
+  ) => FileSubscriptionPayloadSubscription;
   post: (
     where?: PostSubscriptionWhereInput
   ) => PostSubscriptionPayloadSubscription;
@@ -187,7 +187,21 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type DocumentOrderByInput =
+export type PostOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "isPublished_ASC"
+  | "isPublished_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "text_ASC"
+  | "text_DESC";
+
+export type FileOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "createdAt_ASC"
@@ -203,22 +217,6 @@ export type DocumentOrderByInput =
   | "url_ASC"
   | "url_DESC";
 
-export type PostOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "isPublished_ASC"
-  | "isPublished_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "text_ASC"
-  | "text_DESC";
-
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -233,252 +231,23 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export interface UserCreateInput {
-  email: String;
-  password: String;
-  name: String;
-  posts?: PostCreateManyWithoutAuthorInput;
-  documents?: DocumentCreateManyInput;
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export interface UserUpdateOneRequiredWithoutFilesInput {
+  create?: UserCreateWithoutFilesInput;
+  update?: UserUpdateWithoutFilesDataInput;
+  upsert?: UserUpsertWithoutFilesInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface PostUpdateInput {
-  isPublished?: Boolean;
-  title?: String;
-  text?: String;
-  author?: UserUpdateOneRequiredWithoutPostsInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export type DocumentWhereUniqueInput = AtLeastOne<{
+export type FileWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   url?: String;
 }>;
-
-export interface PostSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-}
-
-export interface DocumentSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: DocumentWhereInput;
-  AND?: DocumentSubscriptionWhereInput[] | DocumentSubscriptionWhereInput;
-  OR?: DocumentSubscriptionWhereInput[] | DocumentSubscriptionWhereInput;
-  NOT?: DocumentSubscriptionWhereInput[] | DocumentSubscriptionWhereInput;
-}
-
-export interface DocumentUpdateDataInput {
-  filename?: String;
-  mimetype?: String;
-  encoding?: String;
-  url?: String;
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  isPublished?: Boolean;
-  title?: String;
-  text?: String;
-}
-
-export interface DocumentUpdateWithWhereUniqueNestedInput {
-  where: DocumentWhereUniqueInput;
-  data: DocumentUpdateDataInput;
-}
-
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput;
-}
-
-export interface DocumentUpdateManyInput {
-  create?: DocumentCreateInput[] | DocumentCreateInput;
-  update?:
-    | DocumentUpdateWithWhereUniqueNestedInput[]
-    | DocumentUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | DocumentUpsertWithWhereUniqueNestedInput[]
-    | DocumentUpsertWithWhereUniqueNestedInput;
-  delete?: DocumentWhereUniqueInput[] | DocumentWhereUniqueInput;
-  connect?: DocumentWhereUniqueInput[] | DocumentWhereUniqueInput;
-  disconnect?: DocumentWhereUniqueInput[] | DocumentWhereUniqueInput;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-}
-
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  password?: String;
-  password_not?: String;
-  password_in?: String[] | String;
-  password_not_in?: String[] | String;
-  password_lt?: String;
-  password_lte?: String;
-  password_gt?: String;
-  password_gte?: String;
-  password_contains?: String;
-  password_not_contains?: String;
-  password_starts_with?: String;
-  password_not_starts_with?: String;
-  password_ends_with?: String;
-  password_not_ends_with?: String;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  posts_every?: PostWhereInput;
-  posts_some?: PostWhereInput;
-  posts_none?: PostWhereInput;
-  documents_every?: DocumentWhereInput;
-  documents_some?: DocumentWhereInput;
-  documents_none?: DocumentWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
-}
-
-export interface DocumentCreateInput {
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  url: String;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface DocumentUpdateInput {
-  filename?: String;
-  mimetype?: String;
-  encoding?: String;
-  url?: String;
-}
-
-export interface DocumentUpsertWithWhereUniqueNestedInput {
-  where: DocumentWhereUniqueInput;
-  update: DocumentUpdateDataInput;
-  create: DocumentCreateInput;
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  documents?: DocumentUpdateManyInput;
-}
 
 export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
   where: PostWhereUniqueInput;
   data: PostUpdateWithoutAuthorDataInput;
-}
-
-export interface UserUpdateOneRequiredWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  update?: UserUpdateWithoutPostsDataInput;
-  upsert?: UserUpsertWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostCreateWithoutAuthorInput {
-  isPublished?: Boolean;
-  title: String;
-  text: String;
-}
-
-export interface DocumentCreateManyInput {
-  create?: DocumentCreateInput[] | DocumentCreateInput;
-  connect?: DocumentWhereUniqueInput[] | DocumentWhereUniqueInput;
-}
-
-export interface UserCreateWithoutPostsInput {
-  email: String;
-  password: String;
-  name: String;
-  documents?: DocumentCreateManyInput;
-}
-
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostCreateInput {
-  isPublished?: Boolean;
-  title: String;
-  text: String;
-  author: UserCreateOneWithoutPostsInput;
 }
 
 export interface PostWhereInput {
@@ -548,12 +317,85 @@ export interface PostWhereInput {
   NOT?: PostWhereInput[] | PostWhereInput;
 }
 
-export interface UserUpdateInput {
+export interface PostUpdateWithoutAuthorDataInput {
+  isPublished?: Boolean;
+  title?: String;
+  text?: String;
+}
+
+export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
   email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
   password?: String;
+  password_not?: String;
+  password_in?: String[] | String;
+  password_not_in?: String[] | String;
+  password_lt?: String;
+  password_lte?: String;
+  password_gt?: String;
+  password_gte?: String;
+  password_contains?: String;
+  password_not_contains?: String;
+  password_starts_with?: String;
+  password_not_starts_with?: String;
+  password_ends_with?: String;
+  password_not_ends_with?: String;
   name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
-  documents?: DocumentUpdateManyInput;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  posts_every?: PostWhereInput;
+  posts_some?: PostWhereInput;
+  posts_none?: PostWhereInput;
+  files_every?: FileWhereInput;
+  files_some?: FileWhereInput;
+  files_none?: FileWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface PostCreateInput {
+  isPublished?: Boolean;
+  title: String;
+  text: String;
+  author: UserCreateOneWithoutPostsInput;
 }
 
 export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -562,12 +404,176 @@ export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
   create: PostCreateWithoutAuthorInput;
 }
 
+export interface FileCreateInput {
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  url: String;
+  owner: UserCreateOneWithoutFilesInput;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface UserCreateOneWithoutFilesInput {
+  create?: UserCreateWithoutFilesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+  files?: FileUpdateManyWithoutOwnerInput;
+}
+
+export interface UserCreateWithoutFilesInput {
+  email: String;
+  password: String;
+  name: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+}
+
 export interface UserUpsertWithoutPostsInput {
   update: UserUpdateWithoutPostsDataInput;
   create: UserCreateWithoutPostsInput;
 }
 
-export interface DocumentWhereInput {
+export interface PostCreateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+}
+
+export interface FileUpsertWithWhereUniqueWithoutOwnerInput {
+  where: FileWhereUniqueInput;
+  update: FileUpdateWithoutOwnerDataInput;
+  create: FileCreateWithoutOwnerInput;
+}
+
+export interface PostCreateWithoutAuthorInput {
+  isPublished?: Boolean;
+  title: String;
+  text: String;
+}
+
+export interface FileUpdateWithWhereUniqueWithoutOwnerInput {
+  where: FileWhereUniqueInput;
+  data: FileUpdateWithoutOwnerDataInput;
+}
+
+export interface FileUpdateInput {
+  filename?: String;
+  mimetype?: String;
+  encoding?: String;
+  url?: String;
+  owner?: UserUpdateOneRequiredWithoutFilesInput;
+}
+
+export interface FileUpdateManyWithoutOwnerInput {
+  create?: FileCreateWithoutOwnerInput[] | FileCreateWithoutOwnerInput;
+  delete?: FileWhereUniqueInput[] | FileWhereUniqueInput;
+  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput;
+  disconnect?: FileWhereUniqueInput[] | FileWhereUniqueInput;
+  update?:
+    | FileUpdateWithWhereUniqueWithoutOwnerInput[]
+    | FileUpdateWithWhereUniqueWithoutOwnerInput;
+  upsert?:
+    | FileUpsertWithWhereUniqueWithoutOwnerInput[]
+    | FileUpsertWithWhereUniqueWithoutOwnerInput;
+}
+
+export interface FileCreateWithoutOwnerInput {
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  url: String;
+}
+
+export interface UserUpdateOneRequiredWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  update?: UserUpdateWithoutPostsDataInput;
+  upsert?: UserUpsertWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutFilesDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PostUpdateWithWhereUniqueWithoutAuthorInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PostUpsertWithWhereUniqueWithoutAuthorInput;
+}
+
+export interface UserCreateInput {
+  email: String;
+  password: String;
+  name: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+  files?: FileCreateManyWithoutOwnerInput;
+}
+
+export interface FileCreateManyWithoutOwnerInput {
+  create?: FileCreateWithoutOwnerInput[] | FileCreateWithoutOwnerInput;
+  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput;
+}
+
+export interface FileUpdateWithoutOwnerDataInput {
+  filename?: String;
+  mimetype?: String;
+  encoding?: String;
+  url?: String;
+}
+
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpsertWithoutFilesInput {
+  update: UserUpdateWithoutFilesDataInput;
+  create: UserCreateWithoutFilesInput;
+}
+
+export interface UserCreateWithoutPostsInput {
+  email: String;
+  password: String;
+  name: String;
+  files?: FileCreateManyWithoutOwnerInput;
+}
+
+export interface FileWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -654,9 +660,44 @@ export interface DocumentWhereInput {
   url_not_starts_with?: String;
   url_ends_with?: String;
   url_not_ends_with?: String;
-  AND?: DocumentWhereInput[] | DocumentWhereInput;
-  OR?: DocumentWhereInput[] | DocumentWhereInput;
-  NOT?: DocumentWhereInput[] | DocumentWhereInput;
+  owner?: UserWhereInput;
+  AND?: FileWhereInput[] | FileWhereInput;
+  OR?: FileWhereInput[] | FileWhereInput;
+  NOT?: FileWhereInput[] | FileWhereInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface FileSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: FileWhereInput;
+  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
+  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
+  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput;
+}
+
+export interface PostUpdateInput {
+  isPublished?: Boolean;
+  title?: String;
+  text?: String;
+  author?: UserUpdateOneRequiredWithoutPostsInput;
+}
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  files?: FileUpdateManyWithoutOwnerInput;
 }
 
 export interface NodeNode {
@@ -688,20 +729,105 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
 }
 
-export interface DocumentEdgeNode {
-  cursor: String;
+export interface AggregateFileNode {
+  count: Int;
 }
 
-export interface DocumentEdge extends Promise<DocumentEdgeNode>, Fragmentable {
-  node: <T = Document>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface DocumentEdgeSubscription
-  extends Promise<AsyncIterator<DocumentEdgeNode>>,
+export interface AggregateFile
+  extends Promise<AggregateFileNode>,
     Fragmentable {
-  node: <T = DocumentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregateFileSubscription
+  extends Promise<AsyncIterator<AggregateFileNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserNode {
+  id: ID_Output;
+  email: String;
+  password: String;
+  name: String;
+}
+
+export interface User extends Promise<UserNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  name: () => Promise<String>;
+  posts: <T = FragmentableArray<PostNode>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  files: <T = FragmentableArray<FileNode>>(
+    args?: {
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<UserNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  files: <T = Promise<AsyncIterator<FileSubscription>>>(
+    args?: {
+      where?: FileWhereInput;
+      orderBy?: FileOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface PostConnectionNode {}
+
+export interface PostConnection
+  extends Promise<PostConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<PostEdgeNode>>() => T;
+  aggregate: <T = AggregatePost>() => T;
+}
+
+export interface PostConnectionSubscription
+  extends Promise<AsyncIterator<PostConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostSubscription>() => T;
 }
 
 export interface PostSubscriptionPayloadNode {
@@ -741,118 +867,20 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserEdgeNode {
+export interface FileEdgeNode {
   cursor: String;
 }
 
-export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
-  node: <T = User>() => T;
+export interface FileEdge extends Promise<FileEdgeNode>, Fragmentable {
+  node: <T = File>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdgeNode>>,
+export interface FileEdgeSubscription
+  extends Promise<AsyncIterator<FileEdgeNode>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = FileSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PageInfoNode {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfoNode>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregatePostNode {
-  count: Int;
-}
-
-export interface AggregatePost
-  extends Promise<AggregatePostNode>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePostNode>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface DocumentConnectionNode {}
-
-export interface DocumentConnection
-  extends Promise<DocumentConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<DocumentEdgeNode>>() => T;
-  aggregate: <T = AggregateDocument>() => T;
-}
-
-export interface DocumentConnectionSubscription
-  extends Promise<AsyncIterator<DocumentConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DocumentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDocumentSubscription>() => T;
-}
-
-export interface PostConnectionNode {}
-
-export interface PostConnection
-  extends Promise<PostConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<PostEdgeNode>>() => T;
-  aggregate: <T = AggregatePost>() => T;
-}
-
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
-}
-
-export interface UserSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface UserSubscriptionPayload
-  extends Promise<UserSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = User>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValues>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface PostNode {
@@ -886,7 +914,80 @@ export interface PostSubscription
   author: <T = UserSubscription>() => T;
 }
 
-export interface DocumentNode {
+export interface AggregateUserNode {
+  count: Int;
+}
+
+export interface AggregateUser
+  extends Promise<AggregateUserNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUserNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PageInfoNode {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfoNode>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserConnectionNode {}
+
+export interface UserConnection
+  extends Promise<UserConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
+  aggregate: <T = AggregateUser>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface AggregatePostNode {
+  count: Int;
+}
+
+export interface AggregatePost
+  extends Promise<AggregatePostNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePostNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface FilePreviousValuesNode {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -896,7 +997,9 @@ export interface DocumentNode {
   url: String;
 }
 
-export interface Document extends Promise<DocumentNode>, Fragmentable {
+export interface FilePreviousValues
+  extends Promise<FilePreviousValuesNode>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -906,8 +1009,8 @@ export interface Document extends Promise<DocumentNode>, Fragmentable {
   url: () => Promise<String>;
 }
 
-export interface DocumentSubscription
-  extends Promise<AsyncIterator<DocumentNode>>,
+export interface FilePreviousValuesSubscription
+  extends Promise<AsyncIterator<FilePreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -918,61 +1021,27 @@ export interface DocumentSubscription
   url: () => Promise<AsyncIterator<String>>;
 }
 
-export interface DocumentPreviousValuesNode {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  url: String;
-}
-
-export interface DocumentPreviousValues
-  extends Promise<DocumentPreviousValuesNode>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  filename: () => Promise<String>;
-  mimetype: () => Promise<String>;
-  encoding: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface DocumentPreviousValuesSubscription
-  extends Promise<AsyncIterator<DocumentPreviousValuesNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  filename: () => Promise<AsyncIterator<String>>;
-  mimetype: () => Promise<AsyncIterator<String>>;
-  encoding: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface DocumentSubscriptionPayloadNode {
+export interface FileSubscriptionPayloadNode {
   mutation: MutationType;
   updatedFields?: String[];
 }
 
-export interface DocumentSubscriptionPayload
-  extends Promise<DocumentSubscriptionPayloadNode>,
+export interface FileSubscriptionPayload
+  extends Promise<FileSubscriptionPayloadNode>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = Document>() => T;
+  node: <T = File>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = DocumentPreviousValues>() => T;
+  previousValues: <T = FilePreviousValues>() => T;
 }
 
-export interface DocumentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<DocumentSubscriptionPayloadNode>>,
+export interface FileSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<FileSubscriptionPayloadNode>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = DocumentSubscription>() => T;
+  node: <T = FileSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = DocumentPreviousValuesSubscription>() => T;
+  previousValues: <T = FilePreviousValuesSubscription>() => T;
 }
 
 export interface PostPreviousValuesNode {
@@ -1006,87 +1075,22 @@ export interface PostPreviousValuesSubscription
   text: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateDocumentNode {
-  count: Int;
-}
+export interface FileConnectionNode {}
 
-export interface AggregateDocument
-  extends Promise<AggregateDocumentNode>,
+export interface FileConnection
+  extends Promise<FileConnectionNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<FileEdgeNode>>() => T;
+  aggregate: <T = AggregateFile>() => T;
 }
 
-export interface AggregateDocumentSubscription
-  extends Promise<AsyncIterator<AggregateDocumentNode>>,
+export interface FileConnectionSubscription
+  extends Promise<AsyncIterator<FileConnectionNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface UserNode {
-  id: ID_Output;
-  email: String;
-  password: String;
-  name: String;
-}
-
-export interface User extends Promise<UserNode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  name: () => Promise<String>;
-  posts: <T = FragmentableArray<PostNode>>(
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  documents: <T = FragmentableArray<DocumentNode>>(
-    args?: {
-      where?: DocumentWhereInput;
-      orderBy?: DocumentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  documents: <T = Promise<AsyncIterator<DocumentSubscription>>>(
-    args?: {
-      where?: DocumentWhereInput;
-      orderBy?: DocumentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<FileEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateFileSubscription>() => T;
 }
 
 export interface PostEdgeNode {
@@ -1105,46 +1109,85 @@ export interface PostEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserConnectionNode {}
+export interface FileNode {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  url: String;
+}
 
-export interface UserConnection
-  extends Promise<UserConnectionNode>,
+export interface File extends Promise<FileNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+  url: () => Promise<String>;
+  owner: <T = User>() => T;
+}
+
+export interface FileSubscription
+  extends Promise<AsyncIterator<FileNode>>,
     Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
-  aggregate: <T = AggregateUser>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  filename: () => Promise<AsyncIterator<String>>;
+  mimetype: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+  owner: <T = UserSubscription>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnectionNode>>,
+export interface UserEdgeNode {
+  cursor: String;
+}
+
+export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
+  node: <T = User>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdgeNode>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUserNode {
-  count: Int;
+export interface UserSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
 }
 
-export interface AggregateUser
-  extends Promise<AggregateUserNode>,
+export interface UserSubscriptionPayload
+  extends Promise<UserSubscriptionPayloadNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  mutation: () => Promise<MutationType>;
+  node: <T = User>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValues>() => T;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUserNode>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 export type Long = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1153,9 +1196,9 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type Int = number;
+export type Boolean = boolean;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.

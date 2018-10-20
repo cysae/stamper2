@@ -1,5 +1,5 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateDocument {
+        typeDefs: /* GraphQL */ `type AggregateFile {
   count: Int!
 }
 
@@ -17,7 +17,7 @@ type BatchPayload {
 
 scalar DateTime
 
-type Document {
+type File {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -25,32 +25,41 @@ type Document {
   mimetype: String!
   encoding: String!
   url: String!
+  owner: User!
 }
 
-type DocumentConnection {
+type FileConnection {
   pageInfo: PageInfo!
-  edges: [DocumentEdge]!
-  aggregate: AggregateDocument!
+  edges: [FileEdge]!
+  aggregate: AggregateFile!
 }
 
-input DocumentCreateInput {
+input FileCreateInput {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+  owner: UserCreateOneWithoutFilesInput!
+}
+
+input FileCreateManyWithoutOwnerInput {
+  create: [FileCreateWithoutOwnerInput!]
+  connect: [FileWhereUniqueInput!]
+}
+
+input FileCreateWithoutOwnerInput {
   filename: String!
   mimetype: String!
   encoding: String!
   url: String!
 }
 
-input DocumentCreateManyInput {
-  create: [DocumentCreateInput!]
-  connect: [DocumentWhereUniqueInput!]
-}
-
-type DocumentEdge {
-  node: Document!
+type FileEdge {
+  node: File!
   cursor: String!
 }
 
-enum DocumentOrderByInput {
+enum FileOrderByInput {
   id_ASC
   id_DESC
   createdAt_ASC
@@ -67,7 +76,7 @@ enum DocumentOrderByInput {
   url_DESC
 }
 
-type DocumentPreviousValues {
+type FilePreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -77,59 +86,60 @@ type DocumentPreviousValues {
   url: String!
 }
 
-type DocumentSubscriptionPayload {
+type FileSubscriptionPayload {
   mutation: MutationType!
-  node: Document
+  node: File
   updatedFields: [String!]
-  previousValues: DocumentPreviousValues
+  previousValues: FilePreviousValues
 }
 
-input DocumentSubscriptionWhereInput {
+input FileSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: DocumentWhereInput
-  AND: [DocumentSubscriptionWhereInput!]
-  OR: [DocumentSubscriptionWhereInput!]
-  NOT: [DocumentSubscriptionWhereInput!]
+  node: FileWhereInput
+  AND: [FileSubscriptionWhereInput!]
+  OR: [FileSubscriptionWhereInput!]
+  NOT: [FileSubscriptionWhereInput!]
 }
 
-input DocumentUpdateDataInput {
+input FileUpdateInput {
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+  owner: UserUpdateOneRequiredWithoutFilesInput
+}
+
+input FileUpdateManyWithoutOwnerInput {
+  create: [FileCreateWithoutOwnerInput!]
+  delete: [FileWhereUniqueInput!]
+  connect: [FileWhereUniqueInput!]
+  disconnect: [FileWhereUniqueInput!]
+  update: [FileUpdateWithWhereUniqueWithoutOwnerInput!]
+  upsert: [FileUpsertWithWhereUniqueWithoutOwnerInput!]
+}
+
+input FileUpdateWithoutOwnerDataInput {
   filename: String
   mimetype: String
   encoding: String
   url: String
 }
 
-input DocumentUpdateInput {
-  filename: String
-  mimetype: String
-  encoding: String
-  url: String
+input FileUpdateWithWhereUniqueWithoutOwnerInput {
+  where: FileWhereUniqueInput!
+  data: FileUpdateWithoutOwnerDataInput!
 }
 
-input DocumentUpdateManyInput {
-  create: [DocumentCreateInput!]
-  update: [DocumentUpdateWithWhereUniqueNestedInput!]
-  upsert: [DocumentUpsertWithWhereUniqueNestedInput!]
-  delete: [DocumentWhereUniqueInput!]
-  connect: [DocumentWhereUniqueInput!]
-  disconnect: [DocumentWhereUniqueInput!]
+input FileUpsertWithWhereUniqueWithoutOwnerInput {
+  where: FileWhereUniqueInput!
+  update: FileUpdateWithoutOwnerDataInput!
+  create: FileCreateWithoutOwnerInput!
 }
 
-input DocumentUpdateWithWhereUniqueNestedInput {
-  where: DocumentWhereUniqueInput!
-  data: DocumentUpdateDataInput!
-}
-
-input DocumentUpsertWithWhereUniqueNestedInput {
-  where: DocumentWhereUniqueInput!
-  update: DocumentUpdateDataInput!
-  create: DocumentCreateInput!
-}
-
-input DocumentWhereInput {
+input FileWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -216,12 +226,13 @@ input DocumentWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
-  AND: [DocumentWhereInput!]
-  OR: [DocumentWhereInput!]
-  NOT: [DocumentWhereInput!]
+  owner: UserWhereInput
+  AND: [FileWhereInput!]
+  OR: [FileWhereInput!]
+  NOT: [FileWhereInput!]
 }
 
-input DocumentWhereUniqueInput {
+input FileWhereUniqueInput {
   id: ID
   url: String
 }
@@ -229,12 +240,12 @@ input DocumentWhereUniqueInput {
 scalar Long
 
 type Mutation {
-  createDocument(data: DocumentCreateInput!): Document!
-  updateDocument(data: DocumentUpdateInput!, where: DocumentWhereUniqueInput!): Document
-  updateManyDocuments(data: DocumentUpdateInput!, where: DocumentWhereInput): BatchPayload!
-  upsertDocument(where: DocumentWhereUniqueInput!, create: DocumentCreateInput!, update: DocumentUpdateInput!): Document!
-  deleteDocument(where: DocumentWhereUniqueInput!): Document
-  deleteManyDocuments(where: DocumentWhereInput): BatchPayload!
+  createFile(data: FileCreateInput!): File!
+  updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
+  updateManyFiles(data: FileUpdateInput!, where: FileWhereInput): BatchPayload!
+  upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
+  deleteFile(where: FileWhereUniqueInput!): File
+  deleteManyFiles(where: FileWhereInput): BatchPayload!
   createPost(data: PostCreateInput!): Post!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
@@ -452,9 +463,9 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  document(where: DocumentWhereUniqueInput!): Document
-  documents(where: DocumentWhereInput, orderBy: DocumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Document]!
-  documentsConnection(where: DocumentWhereInput, orderBy: DocumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DocumentConnection!
+  file(where: FileWhereUniqueInput!): File
+  files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
+  filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
@@ -465,7 +476,7 @@ type Query {
 }
 
 type Subscription {
-  document(where: DocumentSubscriptionWhereInput): DocumentSubscriptionPayload
+  file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -476,7 +487,7 @@ type User {
   password: String!
   name: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
-  documents(where: DocumentWhereInput, orderBy: DocumentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Document!]
+  files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File!]
 }
 
 type UserConnection {
@@ -490,7 +501,12 @@ input UserCreateInput {
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
-  documents: DocumentCreateManyInput
+  files: FileCreateManyWithoutOwnerInput
+}
+
+input UserCreateOneWithoutFilesInput {
+  create: UserCreateWithoutFilesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutPostsInput {
@@ -498,11 +514,18 @@ input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutFilesInput {
+  email: String!
+  password: String!
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
+}
+
 input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String!
-  documents: DocumentCreateManyInput
+  files: FileCreateManyWithoutOwnerInput
 }
 
 type UserEdge {
@@ -555,7 +578,14 @@ input UserUpdateInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
-  documents: DocumentUpdateManyInput
+  files: FileUpdateManyWithoutOwnerInput
+}
+
+input UserUpdateOneRequiredWithoutFilesInput {
+  create: UserCreateWithoutFilesInput
+  update: UserUpdateWithoutFilesDataInput
+  upsert: UserUpsertWithoutFilesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -565,11 +595,23 @@ input UserUpdateOneRequiredWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutFilesDataInput {
+  email: String
+  password: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
 input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
-  documents: DocumentUpdateManyInput
+  files: FileUpdateManyWithoutOwnerInput
+}
+
+input UserUpsertWithoutFilesInput {
+  update: UserUpdateWithoutFilesDataInput!
+  create: UserCreateWithoutFilesInput!
 }
 
 input UserUpsertWithoutPostsInput {
@@ -637,9 +679,9 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
-  documents_every: DocumentWhereInput
-  documents_some: DocumentWhereInput
-  documents_none: DocumentWhereInput
+  files_every: FileWhereInput
+  files_some: FileWhereInput
+  files_none: FileWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

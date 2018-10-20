@@ -5,7 +5,6 @@ scalar Upload
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
-  documents: [Document!]!
   post(id: ID!): Post
   me: User
 }
@@ -16,7 +15,6 @@ type Mutation {
   createDraft(title: String!, text: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
-  createDocument(name: String!): Document!
   uploadFile( file: Upload! ): File!
 }
 
@@ -34,5 +32,5 @@ type User {
   email: String!
   name: String!
   posts: [Post!]!
-  documents: [Document!]!
+  files: [File!]!
 }

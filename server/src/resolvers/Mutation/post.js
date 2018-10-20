@@ -18,21 +18,6 @@ const post = {
     )
   },
 
-  async createDocument(parent, { name }, ctx, info) {
-    const userId = getUserId(ctx)
-    return ctx.db.mutation.createDocument(
-      {
-        data: {
-          name,
-          owner: {
-            connect: { id: userId },
-          },
-        },
-      },
-      info
-    )
-  },
-
   async publish(parent, { id }, ctx, info) {
     const userId = getUserId(ctx)
     const postExists = await ctx.db.exists.Post({

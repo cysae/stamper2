@@ -2,7 +2,7 @@ const { Query } = require('./Query')
 const { Subscription } = require('./Subscription')
 const { auth } = require('./Mutation/auth')
 const { post } = require('./Mutation/post')
-const { document } = require('./Mutation/document')
+const { file } = require('./Mutation/file')
 const { AuthPayload } = require('./AuthPayload')
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
   Mutation: {
     ...auth,
     ...post,
-    ...document,
+    ...file,
   },
   Subscription,
   AuthPayload,

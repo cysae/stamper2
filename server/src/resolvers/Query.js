@@ -15,17 +15,6 @@ const Query = {
 
     return ctx.db.query.posts({ where }, info)
   },
-  documents(parent, args, ctx, info) {
-    const id = getUserId(ctx)
-
-    const where = {
-      owner: {
-        id
-      }
-    }
-
-    return ctx.db.query.documents({ where }, info)
-  },
   post(parent, { id }, ctx, info) {
     return ctx.db.query.post({ where: { id } }, info)
   },
