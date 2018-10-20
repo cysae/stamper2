@@ -12,17 +12,21 @@ class ReceiptPage extends Component {
 }
 
 const RECEIPT_QUERY = gql`
-  query receiptQuery {
-    getReceipt(stamperyId: "1234" ) {
+  query receiptQuery($stamperyId: ID!) {
+    getReceipt(stamperyId: $stamperyId ) {
+      btc,
+      btcIsPending,
       eth,
       ethIsPending,
-      certificateUrl
+      certificate
     }
   }
 `
 export default graphql(RECEIPT_QUERY, {
   name: 'getReceipt',
-  options: {
-    fetchPolicy: 'network-only'
-  },
+  options: props => ({
+    variables: {
+      stamperyId: props.match.params.stamperyId
+    }
+  })
 })(ReceiptPage)
