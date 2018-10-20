@@ -15,6 +15,17 @@ const Query = {
 
     return ctx.db.query.posts({ where }, info)
   },
+  getReceipt(parent, args, ctx, info) {
+    // getReceipt from stampery
+    // buscar datos ( MySQL, API, ...)
+    // transformar datos
+
+    return {
+      eth: "test",
+      ethIsPending: true,
+      certificateUrl: "lol"
+    }
+  },
   post(parent, { id }, ctx, info) {
     return ctx.db.query.post({ where: { id } }, info)
   },

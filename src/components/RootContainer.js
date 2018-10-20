@@ -12,6 +12,7 @@ import DraftsPage from './DraftsPage'
 import CreatePage from './CreatePage'
 import CreateDocument from './CreateDocument'
 import DocumentsPage from './DocumentsPage'
+import ReceiptPage from './ReceiptPage'
 import DetailPage from './DetailPage'
 import LoginPage from './LoginPage'
 import SignupPage from './SignupPage'
@@ -192,6 +193,11 @@ class RootContainer extends Component {
             token={this.state.token}
             path="/upload"
             component={CreateDocument}
+          />
+          <ProtectedRoute
+            token={this.state.token}
+            path="/file/receipt"
+            component={ReceiptPage}
           />
           <Route path="/post/:id" component={DetailPage} />
           <Route

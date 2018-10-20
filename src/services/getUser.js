@@ -35,7 +35,8 @@ const ME_QUERY = gql`
     me {
       id,
       files {
-        id,
+        id
+        stamperyId,
         filename,
         url
       }

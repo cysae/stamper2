@@ -7,6 +7,7 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post
   me: User
+  getReceipt(stamperyId: ID!): Receipt!
 }
 
 type Mutation {
@@ -33,4 +34,10 @@ type User {
   name: String!
   posts: [Post!]!
   files: [File!]!
+}
+
+type Receipt {
+  eth: String!
+  ethIsPending: Boolean!
+  certificateUrl: String!
 }

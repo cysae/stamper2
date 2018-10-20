@@ -23,8 +23,11 @@ class FilePage extends Component {
 
     return (
       <div>
-        {files.map(({filename, url}, i) => (
-          <a key={i} href={url} download>{filename}</a>
+        {files.map(({filename, url, stamperyId}, i) => (
+          <div>
+            <a key={i} href={url} download>{filename}</a>
+            <a key={i} href={url} download>{stamperyId}</a>
+          </div>
         )
         )}
       </div>
