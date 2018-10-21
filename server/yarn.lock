@@ -3495,6 +3495,14 @@ request-promise-core@1.1.1:
   dependencies:
     lodash "^4.13.1"
 
+request-promise-native@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/request-promise-native/-/request-promise-native-1.0.5.tgz#5281770f68e0c9719e5163fd3fab482215f4fda5"
+  dependencies:
+    request-promise-core "1.1.1"
+    stealthy-require "^1.1.0"
+    tough-cookie ">=2.3.3"
+
 request-promise@^4.1.1:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.2.tgz#d1ea46d654a6ee4f8ee6a4fea1018c22911904b4"
@@ -3907,6 +3915,13 @@ sshpk@^1.7.0:
     ecc-jsbn "~0.1.1"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+stampery@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/stampery/-/stampery-6.1.0.tgz#3dbc39d5cce3c8397eab89e9d776cf03be30ed81"
+  dependencies:
+    request "^2.83.0"
+    request-promise-native "^1.0.5"
 
 static-extend@^0.1.1:
   version "0.1.2"

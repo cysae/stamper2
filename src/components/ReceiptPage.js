@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
-import  { gql } from 'apollo-boost'
+import getReceipt from '../services/getReceipt.js'
 
 class ReceiptPage extends Component {
   render() {
@@ -11,18 +10,4 @@ class ReceiptPage extends Component {
   }
 }
 
-const RECEIPT_QUERY = gql`
-  query receiptQuery {
-    getReceipt(stamperyId: "1234" ) {
-      eth,
-      ethIsPending,
-      certificateUrl
-    }
-  }
-`
-export default graphql(RECEIPT_QUERY, {
-  name: 'getReceipt',
-  options: {
-    fetchPolicy: 'network-only'
-  },
-})(ReceiptPage)
+export default getReceipt(ReceiptPage)

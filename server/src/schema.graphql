@@ -8,6 +8,7 @@ type Query {
   post(id: ID!): Post
   me: User
   getReceipt(stamperyId: ID!): Receipt!
+  verifyHash(hash: String!): Boolean!
 }
 
 type Mutation {
@@ -37,7 +38,9 @@ type User {
 }
 
 type Receipt {
+  btc: String!
+  btcIsPending: Boolean!
   eth: String!
   ethIsPending: Boolean!
-  certificateUrl: String!
+  certificate: String!
 }
