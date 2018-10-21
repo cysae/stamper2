@@ -22,6 +22,9 @@ import { AUTH_TOKEN } from '../constant'
 import { isTokenExpired } from '../helper/jwtHelper'
 import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
+import { withNamespaces } from 'react-i18next'
+import i18n from '../i18n'
+import { compose } from 'recompose'
 
 const ProtectedRoute = ({ component: Component, token, ...rest }) => {
   return token ? (
@@ -89,6 +92,11 @@ class RootContainer extends Component {
   }
 
   renderNavBar() {
+    const { t } = this.props
+    const changeLanguage = (lng) => {
+      i18n.changeLanguage(lng)
+    }
+
     return (
       <nav className="pa3 pa4-ns">
         {this.props.data &&
@@ -122,10 +130,16 @@ class RootContainer extends Component {
                 activeClassName="gray"
                 exact={true}
                 to="/documents"
-                title="Documents"
+                title={t('Files')}
               >
-                Documents
+                {t('Files')}
               </NavLink>
+              <div>
+                <button onClick={() => changeLanguage('en')}>en</button>
+                <button onClick={() => changeLanguage('es')}>es</button>
+                <button onClick={() => changeLanguage('fr')}>fr</button>
+                Language: {i18n.language}
+              </div>
             </Fragment>
           )}
         {this.state.token ?
@@ -230,8 +244,11 @@ const ME_QUERY = gql`
   }
 `
 
-export default graphql(ME_QUERY, {
-  options: {
-    errorPolicy: 'all',
-  },
-})(RootContainer)
+export default compose(
+  graphql(ME_QUERY, {
+    options: {
+      errorPolicy: 'all',
+    },
+  }),
+  withNamespaces(),
+)(RootContainer)

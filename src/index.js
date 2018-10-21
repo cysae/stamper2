@@ -8,9 +8,10 @@ import { AUTH_TOKEN } from './constant'
 import RootContainer from './components/RootContainer'
 import { ApolloProvider } from 'react-apollo'
 import { createUploadLink } from 'apollo-upload-client'
-
 import 'tachyons'
 import './index.css'
+
+
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4000' })
 
@@ -48,8 +49,6 @@ const link = split(
   wsLink,
   httpLinkAuth,
 )
-console.log('jojojj')
-console.log('link', ApolloLink.from([link]))
 
 // apollo client setup
 const client = new ApolloClient({
@@ -60,9 +59,16 @@ const client = new ApolloClient({
 
 const token = localStorage.getItem(AUTH_TOKEN)
 
+
+const App = () => {
+  return (
+    <ApolloProvider client={client}>
+      <RootContainer token={token} />
+    </ApolloProvider>
+  )
+}
+
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <RootContainer token={token} />
-  </ApolloProvider>,
+  <App />,
   document.getElementById('root'),
 )
