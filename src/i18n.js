@@ -4,6 +4,7 @@ import { reactI18nextModule } from 'react-i18next'
 const enTranslation = {
   'Files': 'Files',
   'Receipt': 'Receipt',
+  'Verify': 'Verify',
 }
 
 const esTranslation = {
