@@ -23,6 +23,9 @@ import  { gql } from 'apollo-boost'
 import { withNamespaces } from 'react-i18next' // translate
 import i18n from '../i18n'
 import { compose } from 'recompose'
+import { Layout, Menu, Select, Row, Col, Button } from 'antd'
+const { Header, Content, Footer } = Layout
+const Option = Select.Option
 
 const ProtectedRoute = ({ component: Component, token, ...rest }) => {
   return token ? (
@@ -81,87 +84,75 @@ class RootContainer extends Component {
   render() {
     return (
       <Router>
-        <Fragment>
-          {this.renderNavBar()}
-          {this.renderRoute()}
-        </Fragment>
+        <Layout>
+          <Header>
+            <Row type="flex" justify="space-between">
+              <Col>
+                <Menu
+                  theme="dark"
+                  mode="horizontal"
+                  defaultSelectedKeys={['myFiles']}
+                  style={{ lineHeight: '64px' }}
+                >
+                  <Menu.Item key="myFiles">
+                    <Link to="/files">My Files</Link>
+                  </Menu.Item>
+                  <Menu.Item key="verify">
+                    <Link to="/verify">Verify</Link>
+                  </Menu.Item>
+                  <Menu.Item key="upload">
+                    <Link to="/upload">Upload</Link>
+                  </Menu.Item>
+                </Menu>
+              </Col>
+              <Col>
+                <Menu
+                  theme="dark"
+                  mode="horizontal"
+                  style={{ lineHeight: '64px' }}
+                >
+                <Select
+                  defaultValue={i18n.language}
+                  onChange={(lng) => this.changeLng(lng)}
+                  style={{width: 120}}
+                >
+                  <Option value="en">English</Option>
+                  <Option value="es">Español</Option>
+                  <Option value="fr">Français</Option>
+                </Select>
+                  <Menu.Item
+                    onClick={() => {
+                        this.refreshTokenFn &&
+                        this.refreshTokenFn({
+                          [AUTH_TOKEN]: null,
+                        })
+                        window.location.href = '/'
+                    }}
+                  >
+                    Cerrar sesión
+                  </Menu.Item>
+                </Menu>
+              </Col>
+            </Row>
+          </Header>
+          <Content>
+            {this.renderRoute()}
+          </Content>
+          <Footer>
+            CYSAE ©2018
+          </Footer>
+        </Layout>
       </Router>
     )
   }
 
-  renderNavBar() {
-    const { t } = this.props
-    const changeLanguage = (lng) => {
-      i18n.changeLanguage(lng)
-    }
+  changeLng = (lng) => {
+    i18n.changeLanguage(lng)
+  }
 
+  renderNavBar() {
     return (
       <nav className="pa3 pa4-ns">
-        {this.props.data &&
-          this.props.data.me &&
-          this.props.data.me.email &&
-          this.state.token && (
-            <Fragment>
-              <Link className="link dim black b f6 f5-ns dib mr3" to="/" title="Feed">
-                Stamper
-              </Link>
-              <NavLink
-                className="link dim f6 f5-ns dib mr3 black"
-                activeClassName="gray"
-                exact={true}
-                to="/files"
-                title={t('Files')}
-              >
-                {t('Files')}
-              </NavLink>
-              <NavLink
-                className="link dim f6 f5-ns dib mr3 black"
-                activeClassName="gray"
-                exact={true}
-                to="/verify"
-                title={t('Verify')}
-              >
-                {t('Verify')}
-              </NavLink>
-              <div>
-                <button onClick={() => changeLanguage('en')}>en</button>
-                <button onClick={() => changeLanguage('es')}>es</button>
-                <button onClick={() => changeLanguage('fr')}>fr</button>
-                Language: {i18n.language}
-              </div>
-            </Fragment>
-          )}
-        {this.state.token ?
-          (
-            <div
-              onClick={() => {
-                this.refreshTokenFn &&
-                  this.refreshTokenFn({
-                    [AUTH_TOKEN]: null,
-                  })
-                window.location.href = '/'
-              }}
-              className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
-            >
-              Cerrar sesión
-            </div>
-          ):(
-            <h2>Acceder</h2>
-          )
-        }
-        {this.props.data &&
-          this.props.data.me &&
-          this.props.data.me.email &&
-          this.state.token && (
-            <Fragment>
-              <Link
-                to="/upload"
-                className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
-              >
-                + Subir archivo
-              </Link>
-            </Fragment>
-          )}
       </nav>
     )
   }
