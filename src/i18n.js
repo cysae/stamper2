@@ -1,25 +1,27 @@
 import i18n from 'i18next'
 import { reactI18nextModule } from 'react-i18next'
 
+const enTranslation = {
+  'Files': 'Files',
+  'Receipt': 'Receipt',
+}
+
+const esTranslation = {
+  'Files': 'Ficheros',
+  'Receipt': 'Recivo',
+}
+
+const frTranslation = {
+  'Files': 'Fichiers',
+}
+
 i18n
   .use(reactI18nextModule) // passes i18n down to react-i18next
   .init({
     resources: {
-      en: {
-        translation: {
-          'Files': 'Files'
-        }
-      },
-      es: {
-        translation: {
-          'Files': 'Ficheros'
-        }
-      },
-      fr: {
-        translation: {
-          'Files': 'Fichiers'
-        }
-      }
+      en: { translation: enTranslation },
+      es: { translation: esTranslation },
+      fr: { translation: frTranslation }
     },
     lng: 'en',
     fallbackLng: 'en',

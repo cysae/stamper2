@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
 import getUser from '../services/getUser.js'
-import Link from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Table } from 'antd'
-//import Post from '../components/Post'
-//import Docs from '../components/Docs'
-//import {
-//  NavLink,
-//  Link,
-//  BrowserRouter as Router,
-//  Route,
-//  Switch,
-//  Redirect,
-//} from 'react-router-dom'
+import { withNamespaces } from 'react-i18next'
+import { compose } from 'recompose'
 
 class FilePage extends Component {
   /* componentWillReceiveProps(nextProps) {
@@ -21,14 +13,14 @@ class FilePage extends Component {
    * } */
 
   render() {
-    const { me: { files } } = this.props
-console.log(files)
+    const { me: { files }, t } = this.props
+
     const columns = [
       {
         title: 'Nombre',
         dataIndex: 'filename',
         key: 'filename',
-        render: (filename, record) => <a href={record.url} download>{filename}</a>
+        render: (filename, record) => <a to={record.url} download>{filename}</a>
       },
       {
         title: 'Fecha del sello',
@@ -41,11 +33,11 @@ console.log(files)
         key: 'hash'
       },
       {
-        title: 'Recivo',
+        title: t('Receipt'),
         key: 'receipt',
-        render: (text, record) => <a href={record.stamperyId}>ver recivo</a>
+        render: (text, record) => <Link to={`receipt/${record.stamperyId}`}>ver recivo</Link>
       }
-    ];
+    ]
 
     return (
       <div>
@@ -61,4 +53,7 @@ console.log(files)
   }
 }
 
-export default getUser(FilePage)
+export default compose(
+  getUser,
+  withNamespaces(),
+)(FilePage)

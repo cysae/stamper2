@@ -22,7 +22,7 @@ import { AUTH_TOKEN } from '../constant'
 import { isTokenExpired } from '../helper/jwtHelper'
 import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
-import { withNamespaces } from 'react-i18next'
+import { withNamespaces } from 'react-i18next' // translate
 import i18n from '../i18n'
 import { compose } from 'recompose'
 
@@ -210,7 +210,7 @@ class RootContainer extends Component {
           />
           <ProtectedRoute
             token={this.state.token}
-            path="/file/receipt/:stamperyId"
+            path="/receipt/:stamperyId"
             component={ReceiptPage}
           />
           <Route path="/post/:id" component={DetailPage} />
@@ -252,3 +252,5 @@ export default compose(
   }),
   withNamespaces(),
 )(RootContainer)
+
+// export default withNamespaces()(Component)
