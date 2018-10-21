@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
@@ -47,15 +47,6 @@ class CreateFile extends Component {
   }
 }
 
-{/*const CREATE_DOCUMENT_MUTATION = gql`
-  mutation CreateDocumentMutation($name: String!) {
-    createDocument(name: $name) {
-      id
-      name
-    }
-  }
-`*/}
-
 const UPLOAD_MUTATION = gql`
   mutation uploadFile($file: Upload!) {
     uploadFile(
@@ -65,11 +56,7 @@ const UPLOAD_MUTATION = gql`
     }
   }
 `
-/*
-graphql(CREATE_DOCUMENT_MUTATION, {
-  name: 'createDocumentMutation', // name of the injected prop: this.props.createCompanyMutation...
-}),
-*/
+
 export default compose(
   graphql(UPLOAD_MUTATION, {
     name: 'uploadMutation', // name of the injected prop: this.props.createCompanyMutation...

@@ -7,15 +7,11 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
-import FeedPage from './FeedPage'
-import DraftsPage from './DraftsPage'
-import CreatePage from './CreatePage'
 import CreateFile from './CreateFile'
 import FilePage from './FilePage'
 import VerifyPage from './VerifyPage'
 import VerifyHashPage from './VerifyHashPage'
 import ReceiptPage from './ReceiptPage'
-import DetailPage from './DetailPage'
 import LoginPage from './LoginPage'
 import SignupPage from './SignupPage'
 import PageNotFound from './PageNotFound'
@@ -107,26 +103,8 @@ class RootContainer extends Component {
           this.state.token && (
             <Fragment>
               <Link className="link dim black b f6 f5-ns dib mr3" to="/" title="Feed">
-                Blog
+                Stamper
               </Link>
-              <NavLink
-                className="link dim f6 f5-ns dib mr3 black"
-                activeClassName="gray"
-                exact={true}
-                to="/"
-                title="Feed"
-              >
-                Feed
-              </NavLink>
-              <NavLink
-                className="link dim f6 f5-ns dib mr3 black"
-                activeClassName="gray"
-                exact={true}
-                to="/drafts"
-                title="Drafts"
-              >
-                Drafts
-              </NavLink>
               <NavLink
                 className="link dim f6 f5-ns dib mr3 black"
                 activeClassName="gray"
@@ -177,12 +155,6 @@ class RootContainer extends Component {
           this.state.token && (
             <Fragment>
               <Link
-                to="/create"
-                className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
-              >
-                + Create Draft
-              </Link>
-              <Link
                 to="/upload"
                 className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
               >
@@ -198,21 +170,10 @@ class RootContainer extends Component {
     return (
       <div className="fl w-100 pl4 pr4">
         <Switch>
-          <ProtectedRoute token={this.state.token} exact path="/" component={FeedPage} />
-          <ProtectedRoute
-            token={this.state.token}
-            path="/drafts"
-            component={DraftsPage}
-          />
           <ProtectedRoute
             token={this.state.token}
             path="/files"
             component={FilePage}
-          />
-          <ProtectedRoute
-            token={this.state.token}
-            path="/create"
-            component={CreatePage}
           />
           <ProtectedRoute
             token={this.state.token}
@@ -226,7 +187,6 @@ class RootContainer extends Component {
           />
           <Route exact path="/verify" component={VerifyPage} />
           <Route path="/verify/:hash" component={VerifyHashPage} />
-          <Route path="/post/:id" component={DetailPage} />
           <Route
             token={this.state.token}
             path="/login"
