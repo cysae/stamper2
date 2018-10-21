@@ -8,6 +8,7 @@ type Query {
   post(id: ID!): Post
   me: User
   getReceipt(stamperyId: ID!): Receipt!
+  verifyHash(hash: String!): Boolean!
 }
 
 type Mutation {

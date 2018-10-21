@@ -1,6 +1,9 @@
 const axios = require('axios')
 const moment = require('moment')
+const Stampery = require('stampery')
 const { getUserId } = require('../utils')
+const stampery = new Stampery(process.env.STAMPERY_SECRET)
+
 
 const Query = {
   feed(parent, args, ctx, info) {
@@ -76,6 +79,10 @@ const Query = {
       ethIsPending,
       certificate,
     }
+  },
+  async verifyHash(parent, { hash }, ctx, info) {
+    const stamp = (await stampery.getById(hash))[0]
+    return stampery.prove(stamp.receipts.eth)
   },
   post(parent, { id }, ctx, info) {
     return ctx.db.query.post({ where: { id } }, info)
