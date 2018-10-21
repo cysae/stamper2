@@ -8,6 +8,8 @@ import { AUTH_TOKEN } from './constant'
 import RootContainer from './components/RootContainer'
 import { ApolloProvider } from 'react-apollo'
 import { createUploadLink } from 'apollo-upload-client'
+import 'antd/dist/antd.css';
+
 
 import 'tachyons'
 import './index.css'
