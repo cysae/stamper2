@@ -4,21 +4,10 @@ import { graphql } from 'react-apollo'
 import  { gql } from 'apollo-boost'
 import { compose } from 'recompose'
 
-class CreateDocument extends Component {
+class CreateFile extends Component {
   state = {
     name: '',
   }
-
-/*
-  handlePost = async e => {
-    e.preventDefault()
-    const { name } = this.state
-    await this.props.createDocumentMutation ({
-      variables: { name },
-    })
-    this.props.history.push('/documents')
-  }
-*/
 
   _uploadFile = (event) => {
     const files = event.target.files
@@ -31,32 +20,14 @@ class CreateDocument extends Component {
     }).catch(error => {
       console.log(error)
     })
-    this.props.history.push(`/documents`)
+    this.props.history.push(`/files`)
   }
 
   render() {
     return (
       <div className="pa4 flex justify-center bg-white">
         <form>
-        {/*onSubmit={this.handlePost}> NOT NEEDED, AS WELL AS handlePost() */}
-          <h1 className="pa4 flex justify-center">Upload Document</h1>
-{/*
-          <input
-            autoFocus
-            className="w-100 pa2 mv2 br2 b--black-20 bw1"
-            onChange={e => this.setState({ name: e.target.value })}
-            placeholder="Document Name"
-            type="text"
-            value={this.state.name}
-          />
-          <input
-            className={`pa3 bg-black-10 bn ${this.state.name &&
-              'dim pointer'}`}
-            disabled={!this.state.name}
-            type="submit"
-            value="Create"
-          />
-*/}
+          <h1 className="pa4 flex justify-center">Subir archivo</h1>
           <input
             type="file"
             accept="image/*"
@@ -68,7 +39,7 @@ class CreateDocument extends Component {
             }}
           />
           <a className="f6 pointer" onClick={this.props.history.goBack}>
-            Cancel
+            Cancelar
           </a>
         </form>
       </div>
@@ -76,14 +47,14 @@ class CreateDocument extends Component {
   }
 }
 
-const CREATE_DOCUMENT_MUTATION = gql`
+{/*const CREATE_DOCUMENT_MUTATION = gql`
   mutation CreateDocumentMutation($name: String!) {
     createDocument(name: $name) {
       id
       name
     }
   }
-`
+`*/}
 
 const UPLOAD_MUTATION = gql`
   mutation uploadFile($file: Upload!) {
@@ -94,13 +65,14 @@ const UPLOAD_MUTATION = gql`
     }
   }
 `
-
+/*
+graphql(CREATE_DOCUMENT_MUTATION, {
+  name: 'createDocumentMutation', // name of the injected prop: this.props.createCompanyMutation...
+}),
+*/
 export default compose(
-  graphql(CREATE_DOCUMENT_MUTATION, {
-    name: 'createDocumentMutation', // name of the injected prop: this.props.createCompanyMutation...
-  }),
   graphql(UPLOAD_MUTATION, {
     name: 'uploadMutation', // name of the injected prop: this.props.createCompanyMutation...
   }),
   withRouter
-)(CreateDocument)
+)(CreateFile)

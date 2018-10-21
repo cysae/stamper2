@@ -15,7 +15,7 @@ class LoginPage extends Component {
       <div className="pa4 flex justify-center bg-white">
         <div>
           <h3>
-            Don't have an account? <a href="/signup">Signup</a>
+            ¿No tienes una cuenta? <a href="/signup">Registrarse</a>
           </h3>
           <input
             autoFocus
@@ -28,7 +28,7 @@ class LoginPage extends Component {
           <input
             autoFocus
             className="w-100 pa2 mv2 br2 b--black-20 bw1"
-            placeholder="Password"
+            placeholder="Contraseña"
             type="password"
             onChange={e => this.setState({ password: e.target.value })}
             value={this.state.password}
@@ -39,7 +39,7 @@ class LoginPage extends Component {
                 className="pa3 bg-black-10 bn dim ttu pointer"
                 onClick={this._login}
               >
-                Log in
+                Acceder
               </button>
             )}
         </div>

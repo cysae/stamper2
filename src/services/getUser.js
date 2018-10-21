@@ -33,12 +33,14 @@ const renderIfError = (component) => compose(
 const ME_QUERY = gql`
   query meQuery {
     me {
-      id,
+      id
       files {
         id
-        stamperyId,
-        filename,
+        stamperyId
+        filename
         url
+        hash
+        stampedAt
       }
     }
   }

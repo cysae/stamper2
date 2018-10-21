@@ -16,12 +16,12 @@ class SignupPage extends Component {
       <div className="pa4 flex justify-center bg-white">
         <form onSubmit={this._signup}>
           <h3>
-            Already have an account? <a href="/login"> Login</a>
+            ¿Tienes ya una cuenta? <a href="/login"> Iniciar sesión</a>
           </h3>
           <input
             autoFocus
             className="w-100 pa2 mv2 br2 b--black-20 bw1"
-            placeholder="Name"
+            placeholder="Nombre"
             type="text"
             onChange={e => this.setState({ name: e.target.value })}
             value={this.state.name}
@@ -37,7 +37,7 @@ class SignupPage extends Component {
           <input
             autoFocus
             className="w-100 pa2 mv2 br2 b--black-20 bw1"
-            placeholder="Enter Password"
+            placeholder="Contraseña"
             type="password"
             onChange={e => this.setState({ password: e.target.value })}
             value={this.state.password}
@@ -49,7 +49,7 @@ class SignupPage extends Component {
               !this.state.email || !this.state.name || !this.state.password
             }
             type="submit"
-            value="Sign Up"
+            value="Registrarse"
           />
         </form>
       </div>

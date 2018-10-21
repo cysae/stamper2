@@ -10,8 +10,8 @@ import {
 import FeedPage from './FeedPage'
 import DraftsPage from './DraftsPage'
 import CreatePage from './CreatePage'
-import CreateDocument from './CreateDocument'
-import DocumentsPage from './DocumentsPage'
+import CreateFile from './CreateFile'
+import FilePage from './FilePage'
 import ReceiptPage from './ReceiptPage'
 import DetailPage from './DetailPage'
 import LoginPage from './LoginPage'
@@ -129,7 +129,7 @@ class RootContainer extends Component {
                 className="link dim f6 f5-ns dib mr3 black"
                 activeClassName="gray"
                 exact={true}
-                to="/documents"
+                to="/files"
                 title={t('Files')}
               >
                 {t('Files')}
@@ -154,10 +154,10 @@ class RootContainer extends Component {
               }}
               className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
             >
-              Logout
+              Cerrar sesión
             </div>
           ):(
-            <h2>Sign in</h2>
+            <h2>Acceder</h2>
           )
         }
         {this.props.data &&
@@ -175,7 +175,7 @@ class RootContainer extends Component {
                 to="/upload"
                 className="f6 link dim br1 ba ph3 pv2 fr mb2 dib black"
               >
-                + Upload Document
+                + Subir archivo
               </Link>
             </Fragment>
           )}
@@ -195,8 +195,8 @@ class RootContainer extends Component {
           />
           <ProtectedRoute
             token={this.state.token}
-            path="/documents"
-            component={DocumentsPage}
+            path="/files"
+            component={FilePage}
           />
           <ProtectedRoute
             token={this.state.token}
@@ -206,7 +206,7 @@ class RootContainer extends Component {
           <ProtectedRoute
             token={this.state.token}
             path="/upload"
-            component={CreateDocument}
+            component={CreateFile}
           />
           <ProtectedRoute
             token={this.state.token}
