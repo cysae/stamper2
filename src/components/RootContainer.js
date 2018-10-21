@@ -12,6 +12,8 @@ import DraftsPage from './DraftsPage'
 import CreatePage from './CreatePage'
 import CreateFile from './CreateFile'
 import FilePage from './FilePage'
+import VerifyPage from './VerifyPage'
+import VerifyHashPage from './VerifyHashPage'
 import ReceiptPage from './ReceiptPage'
 import DetailPage from './DetailPage'
 import LoginPage from './LoginPage'
@@ -134,6 +136,15 @@ class RootContainer extends Component {
               >
                 {t('Files')}
               </NavLink>
+              <NavLink
+                className="link dim f6 f5-ns dib mr3 black"
+                activeClassName="gray"
+                exact={true}
+                to="/verify"
+                title={t('Verify')}
+              >
+                {t('Verify')}
+              </NavLink>
               <div>
                 <button onClick={() => changeLanguage('en')}>en</button>
                 <button onClick={() => changeLanguage('es')}>es</button>
@@ -213,6 +224,8 @@ class RootContainer extends Component {
             path="/receipt/:stamperyId"
             component={ReceiptPage}
           />
+          <Route exact path="/verify" component={VerifyPage} />
+          <Route path="/verify/:hash" component={VerifyHashPage} />
           <Route path="/post/:id" component={DetailPage} />
           <Route
             token={this.state.token}

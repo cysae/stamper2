@@ -45,6 +45,7 @@ const ME_QUERY = gql`
     }
   }
 `
+
 export default (WrappedComponent) => {
   return compose(
     graphql(ME_QUERY, {
