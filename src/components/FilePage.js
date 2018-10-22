@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
 import getUser from '../services/getUser.js'
-import { Link } from 'react-router-dom'
+import  { Link }  from 'react-router-dom'
 import { Table } from 'antd'
-import { withNamespaces } from 'react-i18next'
-import { compose } from 'recompose'
+//import Post from '../components/Post'
+//import Docs from '../components/Docs'
+//import {
+//  NavLink,
+//  Link,
+//  BrowserRouter as Router,
+//  Route,
+//  Switch,
+//  Redirect,
+//} from 'react-router-dom'
 
 class FilePage extends Component {
   /* componentWillReceiveProps(nextProps) {
@@ -13,36 +21,36 @@ class FilePage extends Component {
    * } */
 
   render() {
-    const { me: { files }, t } = this.props
-
+    const { me: { files } } = this.props
+console.log(files)
     const columns = [
       {
-        title: 'Nombre',
-        dataIndex: 'filename',
-        key: 'filename',
-        render: (filename, record) => <a to={record.url} download>{filename}</a>
+        title: "Nombre",
+        dataIndex: "filename",
+        key: "filename",
+        render: (filename, record) => <a href={record.url} download>{filename}</a>
       },
       {
-        title: 'Fecha del sello',
-        dataIndex: 'stampedAt',
-        key: 'stampedAt',
+        title: "Fecha del sello",
+        dataIndex: "stampedAt",
+        key: "stampedAt",
       },
       {
-        title: 'Hash',
-        dataIndex: 'hash',
-        key: 'hash'
+        title: "Hash",
+        dataIndex: "hash",
+        key: "hash"
       },
       {
-        title: t('Receipt'),
-        key: 'receipt',
-        render: (text, record) => <Link to={`receipt/${record.stamperyId}`}>ver recivo</Link>
+        title: " ",
+        key: "receipt",
+        render: (text, record) => <a href={"receipt/" + record.stamperyId}>ver recivo</a>
       }
-    ]
+    ];
 
     return (
       <div>
-        <h2>Lista de archivos</h2>
-        <p>Haz click en el nombre del archivo que deseas descargar</p>
+        <h2>Lista de ficheros</h2>
+        {/*<p>Haz click en el nombre del fichero que deseas descargar</p>*/}
         <Table
           columns={columns}
           dataSource={files}
@@ -53,7 +61,4 @@ class FilePage extends Component {
   }
 }
 
-export default compose(
-  getUser,
-  withNamespaces(),
-)(FilePage)
+export default getUser(FilePage)
