@@ -1,5 +1,6 @@
 <h1 align="center"><strong>Boilerplate for a Advanced Fullstack GraphQL App with React</strong></h1>
 
+
 <br />
 
 ![](https://imgur.com/ousyQaC.png)
